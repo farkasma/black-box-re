@@ -1,0 +1,32 @@
+#field {
+    position: absolute
+}
+
+.tile {
+    position: absolute;
+    width: 18px;
+    height: 18px
+}
+
+.edge {
+    text-align: center;
+    background-color: blue;
+    border: 1px black solid
+}
+
+.inner {
+    background-color: crimson;
+    border: 1px black solid
+}
+
+.corner {
+    background-color: transparent;
+    border: 10px transparent solid
+}
+
+.ball {
+    width: 18px;
+    height: 18px;
+    background-color: black;
+    border-radius: 9px
+}
