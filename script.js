@@ -59,7 +59,7 @@ function laser(r, c) {
             switch (c) {
                 case 0: y = 1; break;
                 case 6: y = -1; break;
-            }        
+            }
     }
     var state = 0
     while (state != 7) {
@@ -67,6 +67,8 @@ function laser(r, c) {
             case 0:
                 if (board[r + x][c + y].ball === true) {
                     start.element.innerHTML = "H"
+                    state = 7
+                    break
                 }
                 state = 1
                 break
@@ -74,19 +76,23 @@ function laser(r, c) {
                 if (x == 0) {
                     if (board[r + 1][c + y].ball === true) {
                         start.element.innerHTML = "R"
+                        state = 7
                         break
                     }
                     if (board[r - 1][c + y].ball === true) {
                         start.element.innerHTML = "R"
+                        state = 7
                         break
                     }
                 } else { //y = 0
                     if (board[r + x][c + 1].ball === true) {
                         start.element.innerHTML = "R"
+                        state = 7
                         break
                     }
                     if (board[r + x][c - 1].ball === true) {
                         start.element.innerHTML = "R"
+                        state = 7
                         break
                     }
                 }
@@ -95,73 +101,71 @@ function laser(r, c) {
                 state = 2
                 break
             case 2:
-                
         }
     }
-        if (board[r + x][c + y].ball === true) {
-            start.element.innerHTML = "H"
-            break
-        } else {
-            if (x == 0) {
-                if (board[r + 1][c + y].ball === true) {
-                    if (firstrow) {
-                        start.element.innerHTML = "R"
-                        break
-                    } else {
-                        both = true
-                    }
-                }
-                if (board[r - 1][c + y].ball === true) {
-                    if (firstrow) {
-                        start.element.innerHTML = "R"
-                        break
-                    } else {
-                        if (both) {
-                            y = -y
-                            break
-                        } else {
-                            y = 0
-                            x = 1
-                        }
-                    }
-                }
-                if (both) {
-                    y = 0
-                    x = -1
-                }
-            } else { //y = 0
-                if (board[r + x][c + 1].ball === true) {
-                    if (firstrow) {
-                        start.element.innerHTML = "R"
-                        break
-                    } else {
-                        both = true
-                    }
-                }
-                if (board[r + x][c - 1].ball === true) {
-                    if (firstrow) {
-                        start.element.innerHTML = "R"
-                        break
-                    } else {
-                        if (both) {
-                            x = -x
-                            break
-                        } else {
-                            y = 1
-                            x = 0
-                        }
-                    }
-                }
-                if (both) {
-                    y = -1
-                    x = 0
+    if (board[r + x][c + y].ball === true) {
+        start.element.innerHTML = "H"
+        break
+    } else {
+        if (x == 0) {
+            if (board[r + 1][c + y].ball === true) {
+                if (firstrow) {
+                    start.element.innerHTML = "R"
+                    break
+                } else {
+                    both = true
                 }
             }
-            firstrow = false
+            if (board[r - 1][c + y].ball === true) {
+                if (firstrow) {
+                    start.element.innerHTML = "R"
+                    break
+                } else {
+                    if (both) {
+                        y = -y
+                        break
+                    } else {
+                        y = 0
+                        x = 1
+                    }
+                }
+            }
+            if (both) {
+                y = 0
+                x = -1
+            }
+        } else { //y = 0
+            if (board[r + x][c + 1].ball === true) {
+                if (firstrow) {
+                    start.element.innerHTML = "R"
+                    break
+                } else {
+                    both = true
+                }
+            }
+            if (board[r + x][c - 1].ball === true) {
+                if (firstrow) {
+                    start.element.innerHTML = "R"
+                    break
+                } else {
+                    if (both) {
+                        x = -x
+                        break
+                    } else {
+                        y = 1
+                        x = 0
+                    }
+                }
+            }
+            if (both) {
+                y = -1
+                x = 0
+            }
         }
-        r += x
-        c += y
+        firstrow = false
     }
+    r += x
+    c += y
     console.log("edge")
 }
 
