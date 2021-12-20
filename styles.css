@@ -4,6 +4,7 @@
 
 .tile {
     position: absolute;
+    user-select: none;
     width: 18px;
     height: 18px
 }
