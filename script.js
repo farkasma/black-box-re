@@ -7,6 +7,7 @@ var field = document.getElementById("field")
 var size = 5
 var balls = 3
 var board = []
+var exits = 1
 
 initialize()
 
@@ -49,9 +50,11 @@ function initialize() {
 }
 
 function laser(r, c) {
+    var startr = r
+    var startc = c
     var start = board[r][c]
     if (start.element.innerHTML != "") return
-    var x = 0, y = 0
+    var x = 0, y = 0 //x: row delta, y: column delta
     switch (r) {
         case 0: x = 1; break;
         case 6: x = -1; break;
@@ -62,12 +65,12 @@ function laser(r, c) {
             }
     }
     var state = 0
-    while (state != 7) {
+    while (state != 12) {
         switch (state) {
             case 0:
                 if (board[r + x][c + y].ball === true) {
                     start.element.innerHTML = "H"
-                    state = 7
+                    state = 12
                     break
                 }
                 state = 1
@@ -76,23 +79,23 @@ function laser(r, c) {
                 if (x == 0) {
                     if (board[r + 1][c + y].ball === true) {
                         start.element.innerHTML = "R"
-                        state = 7
+                        state = 12
                         break
                     }
                     if (board[r - 1][c + y].ball === true) {
                         start.element.innerHTML = "R"
-                        state = 7
+                        state = 12
                         break
                     }
                 } else { //y = 0
                     if (board[r + x][c + 1].ball === true) {
                         start.element.innerHTML = "R"
-                        state = 7
+                        state = 12
                         break
                     }
                     if (board[r + x][c - 1].ball === true) {
                         start.element.innerHTML = "R"
-                        state = 7
+                        state = 12
                         break
                     }
                 }
@@ -101,71 +104,95 @@ function laser(r, c) {
                 state = 2
                 break
             case 2:
+                if (board[r][c].element.classList.contains("edge")) {
+                    state = 11
+                } else {
+                    state = 3
+                }
+                break
+            case 3:
+                if (board[r + x][c + y].ball === true) {
+                    start.element.innerHTML = "H"
+                    state = 12
+                    break
+                }
+                state = 4
+                break
+            case 4:
+                if (x == 0) {
+                    state = 5
+                } else { //y == 0
+                    state = 8
+                }
+                break
+            case 5:
+                if (board[r + 1][c + y].ball === true) {
+                    state = 6
+                } else {
+                    state = 7
+                }
+                break
+            case 6:
+                if (board[r - 1][c + y].ball === true) {
+                    y = -y
+                } else {
+                    y = 0
+                    x = -1
+                }
+                r += x
+                c += y
+                state = 2
+                break
+            case 7:
+                if (board[r - 1][c + y].ball === true) {
+                    y = 0
+                    x = 1
+                }
+                r += x
+                c += y
+                state = 2
+                break
+            case 8:
+                if (board[r + x][c + 1].ball === true) {
+                    state = 9
+                } else {
+                    state = 10
+                }
+                break
+            case 9:
+                if (board[r + x][c - 1].ball === true) {
+                    x = -x
+                } else {
+                    x = 0
+                    y = -1
+                }
+                r += x
+                c += y
+                state = 2
+                break
+            case 10:
+                if (board[r + x][c - 1].ball === true) {
+                    x = 0
+                    y = 1
+                }
+                r += x
+                c += y
+                state = 2
+                break
+            case 11:
+                if (startr == r && startc == c) {
+                    board[r][c].element.innerHTML = "R"
+                    state = 12
+                    break
+                } else {
+                    start.element.innerHTML = exits
+                    board[r][c].element.innerHTML = exits
+                    exits++
+                    state = 12
+                    break
+                }
         }
     }
-    if (board[r + x][c + y].ball === true) {
-        start.element.innerHTML = "H"
-        break
-    } else {
-        if (x == 0) {
-            if (board[r + 1][c + y].ball === true) {
-                if (firstrow) {
-                    start.element.innerHTML = "R"
-                    break
-                } else {
-                    both = true
-                }
-            }
-            if (board[r - 1][c + y].ball === true) {
-                if (firstrow) {
-                    start.element.innerHTML = "R"
-                    break
-                } else {
-                    if (both) {
-                        y = -y
-                        break
-                    } else {
-                        y = 0
-                        x = 1
-                    }
-                }
-            }
-            if (both) {
-                y = 0
-                x = -1
-            }
-        } else { //y = 0
-            if (board[r + x][c + 1].ball === true) {
-                if (firstrow) {
-                    start.element.innerHTML = "R"
-                    break
-                } else {
-                    both = true
-                }
-            }
-            if (board[r + x][c - 1].ball === true) {
-                if (firstrow) {
-                    start.element.innerHTML = "R"
-                    break
-                } else {
-                    if (both) {
-                        x = -x
-                        break
-                    } else {
-                        y = 1
-                        x = 0
-                    }
-                }
-            }
-            if (both) {
-                y = -1
-                x = 0
-            }
-        }
-        firstrow = false
-    }
-    r += x
-    c += y
     console.log("edge")
 }
 
