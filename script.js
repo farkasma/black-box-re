@@ -1,6 +1,6 @@
 class Tile {
     element;
-    ball
+    ball = false
 }
 
 var field = document.getElementById("field")
@@ -17,20 +17,19 @@ function initialize() {
         board[i] = []
         for (let j = 0; j < size + 2; j++) {
             var tempelem = document.createElement("div")
-            var temptile = new Tile
             tempelem.classList.add("tile")
             if ((i == 0 || i == size + 1) && (j == 0 || j == size + 1)) {
                 tempelem.classList.add("corner")
             } else if (i == 0 || i == size + 1 || j == 0 || j == size + 1) {
                 tempelem.classList.add("edge")
                 tempelem.setAttribute("onclick", "laser(" + i + ", " + j + ")")
-                temptile.ball = "0"
             } else {
                 tempelem.classList.add("inner")
                 tempelem.setAttribute("onclick", "reveal(" + i + ", " + j + ")")
-                temptile.ball = false
             }
-            tempelem.setAttribute("style", "left: " + j * 20 + "px; top: " + i * 20 + "px")
+            tempelem.style.left = j * 20 + "px"
+            tempelem.style.top = i * 20 + "px"
+            var temptile = new Tile
             temptile.element = tempelem
             board[i][j] = temptile
             field.appendChild(tempelem)
@@ -193,12 +192,10 @@ function laser(r, c) {
                 }
         }
     }
-    console.log("edge")
 }
 
 function reveal(r, c) {
     if (board[r][c].ball === true) {
         board[r][c].element.firstChild.classList.add("ball")
     }
-    console.log("inner")
 }
