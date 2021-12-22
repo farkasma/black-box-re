@@ -26,6 +26,7 @@ function initialize() {
             } else {
                 tempelem.classList.add("inner")
                 tempelem.setAttribute("onclick", "reveal(" + i + ", " + j + ")")
+                tempelem.setAttribute("oncontextmenu", "flag(" + i + ", " + j + "); return false;")
             }
             tempelem.style.left = j * 20 + "px"
             tempelem.style.top = i * 20 + "px"
@@ -41,7 +42,6 @@ function initialize() {
         x = Math.floor(Math.random() * 5 + 1)
         y = Math.floor(Math.random() * 5 + 1)
         if (board[x][y].ball === false) {
-            board[x][y].element.appendChild(document.createElement("div"))
             board[x][y].ball = true
             i--
         }
@@ -196,6 +196,15 @@ function laser(r, c) {
 
 function reveal(r, c) {
     if (board[r][c].ball === true) {
+        console.log("yes")
+    }
+}
+
+function flag(r, c) {
+    if (board[r][c].element.firstChild == null) {
+        board[r][c].element.appendChild(document.createElement("div"))
         board[r][c].element.firstChild.classList.add("ball")
+    } else {
+        board[r][c].element.removeChild(board[r][c].element.firstChild)
     }
 }
