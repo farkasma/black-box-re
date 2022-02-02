@@ -8,6 +8,34 @@
 </head>
 <body>
     <div id="field"></div>
+    <div id="sidebar-header">
+        <nav id="navbar">
+            <a id="btn-rules" onclick="changePage(rules)" style="color: blue">Rules</a>
+            <a id="btn-htp" onclick="changePage(htp)">How to play</a>
+            <a id="btn-controls" onclick="changePage(controls)">Controls</a>
+        </nav>
+    </div>
+    <div id="sidebar">
+        <div id="rules">
+            <p>Within the field marked by the red squares, there are 3 balls. These balls interact with laser beams. If the laser hits the ball head on, it gets absorbed, and stops. But if the laser arrives into one of the tiles diagonal to the ball, it will turn 90° away from the ball, and continue (if it has no ball in front of it either). Now imagine firing a laser from one of the blue edge tiles into the field. The characters in these edge tiles represent one of 3 outcomes:</p>
+            <ul>
+                <li>H: The laser hit a ball head on, and got absorbed.</li>
+                <li>R: The laser either got turned before it could even enter the field, or exited at the same edge tile it entered from.</li>
+                <li>Some number: The laser exited at the tile with the same number it entered.</li>
+            </ul>
+            <p>Your goal is to find these balls.</p>
+        </div>
+        <div id="htp" style="display: none">
+            <p>Left click on an edge tile to reveal the character in it. Alternatively you can use the <b>Reveal all edges</b> button in the Controls tab to reveal all edges at the same time.</p>
+            <p>Right click on a red tile where you think a ball is to mark it.</p>
+            <p>To check your answer use the <b>Check solution</b> button in the Controls tab. All edge tiles, where the character does not match with the result of your answer will get circled in red.</p>
+            <p>To start a new game, refresh the page.</p>
+        </div>
+        <div id="controls" style="display: none">
+            <button onclick="revealAllEdges()">Reveal all edges</button>
+            <button onclick="checkBoard()">Check solution</button>
+        </div>
+    </div>
     <script src="script.js" type="text/javascript"></script>
 </body>
 </html>

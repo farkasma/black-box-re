@@ -1,9 +1,45 @@
 body {
-    margin: 8px
+    margin: 1%
+}
+
+a {
+    cursor: pointer
+}
+
+button {
+    display: block;
+    margin: 3vh 0vh;
+    user-select: none;
+    padding: 4vh 8vh;
+    font-size: 3vh
 }
 
 #field {
     position: absolute
+}
+
+#sidebar-header {
+    position: absolute;
+    margin-right: 1%;
+    height: 8vh; 
+    right: 0px;
+    font-size: 6vh
+}
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px black solid;
+    padding-bottom: 2vh
+}
+
+#sidebar {
+    position: absolute;
+    margin-right: 1%;
+    height: 89vh;
+    right: 0px;
+    bottom: 0px;
+    font-size: 3vh
 }
 
 .tile {

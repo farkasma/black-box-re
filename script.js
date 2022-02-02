@@ -17,20 +17,28 @@ class Tile {
     }
 }
 
+//Logical variables
 var field = document.getElementById("field")
 var size = 5
 var balls = 3
 var board = []
 var exits = 1
 var checkingExits = 1
-var fieldHeight = window.innerHeight - 16
-var tileHeight = Math.floor(fieldHeight / (size + 2))
-var tileBorder = (Math.floor(tileHeight * 0.03) < 1) ? 1 : Math.floor(tileHeight * 0.03)
+var currentPage = "rules"
+
+//Visual variables
+var dynamicMargin = window.innerWidth * 0.01
+var fieldHeight = window.innerHeight - dynamicMargin * 2
+var tileHeight = fieldHeight / (size + 2)
+var tileBorder = ((tileHeight * 0.03) < 1) ? 1 : tileHeight * 0.03
 var tileEdge = tileHeight - tileBorder
+fieldHeight += tileBorder
 
 initialize()
 
 function initialize() {
+    document.getElementById("sidebar-header").setAttribute("style", "width: " + (window.innerWidth - fieldHeight - dynamicMargin * 7) + "px")
+    document.getElementById("sidebar").setAttribute("style", "width: " + (window.innerWidth - fieldHeight - dynamicMargin * 7) + "px")
     field.setAttribute("style", "width: " + fieldHeight + "px; height: " + fieldHeight + "px")
     for (let i = 0; i < size + 2; i++) {
         board[i] = []
@@ -328,4 +336,14 @@ function toggleChild(tile, type) {
                 tile.guess = false
             }
         }    
+}
+
+function changePage(newPage) {
+    newPage = newPage.id
+    if (newPage == currentPage) return
+    document.getElementById(currentPage).setAttribute("style", "display: none")
+    document.getElementById(newPage).setAttribute("style", "display: block")
+    document.getElementById("btn-" + currentPage).setAttribute("style", "color: black")
+    document.getElementById("btn-" + newPage).setAttribute("style", "color: blue")
+    currentPage = newPage
 }
