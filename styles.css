@@ -1,3 +1,7 @@
+body {
+    margin: 8px
+}
+
 #field {
     position: absolute
 }
@@ -5,39 +9,28 @@
 .tile {
     position: absolute;
     user-select: none;
-    width: 18px;
-    height: 18px
 }
 
 .edge {
     text-align: center;
     background-color: blue;
-    border: 1px black solid
 }
 
 .inner {
     background-color: crimson;
-    border: 1px black solid
 }
 
 .corner {
     background-color: transparent;
-    border: 1px transparent solid
 }
 
 .ball {
-    width: 18px;
-    height: 18px;
     background-color: black;
-    border-radius: 9px
 }
 
 .error {
     position: absolute;
     top: 0px;
-    width: 14px;
-    height: 14px;
     background-color: transparent;
     border: 2px red solid;
-    border-radius: 9px
 }

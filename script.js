@@ -23,11 +23,15 @@ var balls = 3
 var board = []
 var exits = 1
 var checkingExits = 1
+var fieldHeight = window.innerHeight - 16
+var tileHeight = Math.floor(fieldHeight / (size + 2))
+var tileBorder = (Math.floor(tileHeight * 0.03) < 1) ? 1 : Math.floor(tileHeight * 0.03)
+var tileEdge = tileHeight - tileBorder
 
 initialize()
 
 function initialize() {
-    field.setAttribute("style", "width: " + (size + 2) * 20 + "px; height: " + (size + 2) * 20 + "px")
+    field.setAttribute("style", "width: " + fieldHeight + "px; height: " + fieldHeight + "px")
     for (let i = 0; i < size + 2; i++) {
         board[i] = []
         for (let j = 0; j < size + 2; j++) {
@@ -35,16 +39,22 @@ function initialize() {
             tempelem.classList.add("tile")
             if ((i == 0 || i == size + 1) && (j == 0 || j == size + 1)) {
                 tempelem.classList.add("corner")
+                tempelem.style.border = tileBorder + "px transparent solid"
             } else if (i == 0 || i == size + 1 || j == 0 || j == size + 1) {
                 tempelem.classList.add("edge")
                 tempelem.setAttribute("onclick", "laser(" + i + ", " + j + ", false)")
+                tempelem.style.border = tileBorder + "px black solid"
             } else {
                 tempelem.classList.add("inner")
                 tempelem.setAttribute("onclick", "reveal(" + i + ", " + j + ")")
                 tempelem.setAttribute("oncontextmenu", "flag(" + i + ", " + j + "); return false;")
+                tempelem.style.border = tileBorder + "px black solid"
             }
-            tempelem.style.left = j * 20 + "px"
-            tempelem.style.top = i * 20 + "px"
+            tempelem.style.width = tileEdge + "px"
+            tempelem.style.fontSize = (tileEdge * 0.9) + "px"
+            tempelem.style.height = tileEdge + "px"
+            tempelem.style.left = j * tileHeight + "px"
+            tempelem.style.top = i * tileHeight + "px"
             var temptile = new Tile
             temptile.element = tempelem
             board[i][j] = temptile
@@ -293,6 +303,10 @@ function toggleChild(tile, type) {
             if (tile.errorElement == null) {
                 let temp = document.createElement("div")
                 temp.classList.add("error")
+                temp.style.width = (tileEdge * 0.8) + "px"
+                temp.style.height = (tileEdge * 0.8) + "px"
+                temp.style.borderRadius = (tileEdge / 2) + "px"
+                temp.style.borderWidth = (tileEdge * 0.1) + "px"
                 tile.errorElement = temp
                 tile.element.appendChild(temp)
             } else {
@@ -304,6 +318,9 @@ function toggleChild(tile, type) {
             if (tile.element.firstChild == null) {
                 let temp = document.createElement("div")
                 temp.classList.add("ball")
+                temp.style.height = tileEdge + "px"
+                temp.style.width = tileEdge + "px"
+                temp.style.borderRadius = (tileEdge / 2) + "px"
                 tile.element.appendChild(temp)
                 tile.guess = true
             } else {
