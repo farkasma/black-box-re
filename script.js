@@ -227,13 +227,13 @@ function laser(r, c, checking) {
                         board[r][c].pair.r = startr
                         board[r][c].pair.c = startc    
                     }
+                    board[r][c].sync()
                     window[exit]++
                     state = 12
                     break
                 }
         }
     }
-    board[r][c].sync()
     start.sync()
 }
 
