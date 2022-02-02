@@ -24,6 +24,7 @@ var balls = 3
 var board = []
 var exits = 1
 var checkingExits = 1
+var correct = true
 var currentPage = "rules"
 
 //Visual variables
@@ -256,6 +257,7 @@ function flag(r, c) {
 }
 
 function checkBoard() {
+    correct = true
     for (let i = 0; i < 7; i += 6) {
         for (let j = 1; j < 6; j++) {
             laser(i, j, true)
@@ -263,6 +265,11 @@ function checkBoard() {
             laser(j, i , true)
             checkTile(board[j][i])
         }
+    }
+    if (correct == true) {
+        setTimeout(() => {
+            window.alert("Congratulations!\nYou solved the puzzle.")
+        }, 50)
     }
 }
 
@@ -272,6 +279,7 @@ function checkTile(tile) {
             if (tile.errorElement == null) {
                 toggleChild(tile, "error")
             }
+            correct = false
         } else {
             if (tile.errorElement != null) {
                 toggleChild(tile, "error")
@@ -283,6 +291,7 @@ function checkTile(tile) {
                 if (tile.errorElement == null) {
                     toggleChild(tile, "error")
                 }
+                correct = false
             } else {
                 if (tile.errorElement != null) {
                     toggleChild(tile, "error")
@@ -292,6 +301,7 @@ function checkTile(tile) {
             if (tile.errorElement == null) {
                 toggleChild(tile, "error")
             }
+            correct = false
         }
     }
 }
@@ -332,7 +342,7 @@ function toggleChild(tile, type) {
                 tile.element.appendChild(temp)
                 tile.guess = true
             } else {
-                tile.element.removeChild(tile.element.firstChild)
+                tile.element.firstChild.remove()
                 tile.guess = false
             }
         }    
