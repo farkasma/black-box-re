@@ -55,7 +55,6 @@ function initialize() {
                 tempelem.style.border = tileBorder + "px black solid"
             } else {
                 tempelem.classList.add("inner")
-                tempelem.setAttribute("onclick", "reveal(" + i + ", " + j + ")")
                 tempelem.setAttribute("oncontextmenu", "flag(" + i + ", " + j + "); return false;")
                 tempelem.style.border = tileBorder + "px black solid"
             }
@@ -244,12 +243,6 @@ function laser(r, c, checking) {
         }
     }
     start.sync()
-}
-
-function reveal(r, c) {
-    if (board[r][c].ball === true) {
-        console.log("yes")
-    }
 }
 
 function flag(r, c) {
