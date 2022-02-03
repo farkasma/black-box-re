@@ -17,6 +17,15 @@ class Tile {
     }
 }
 
+var controls = {
+    edgeSwap: false,
+    innerSwap: false,
+    update() {
+        this.edgeSwap = document.getElementById("edge-input").checked
+        this.innerSwap = document.getElementById("inner-input").checked
+    }
+}
+
 //Logical variables
 var field = document.getElementById("field")
 var size = 5
@@ -51,11 +60,13 @@ function initialize() {
                 tempelem.style.border = tileBorder + "px transparent solid"
             } else if (i == 0 || i == size + 1 || j == 0 || j == size + 1) {
                 tempelem.classList.add("edge")
-                tempelem.setAttribute("onclick", "laser(" + i + ", " + j + ", false)")
+                tempelem.setAttribute("onclick", "inputWrapper(" + i + ", " + j + ", 'left', false)")
+                tempelem.setAttribute("oncontextmenu", "inputWrapper(" + i + ", " + j + ", 'right', false); return false;")
                 tempelem.style.border = tileBorder + "px black solid"
             } else {
                 tempelem.classList.add("inner")
-                tempelem.setAttribute("oncontextmenu", "flag(" + i + ", " + j + "); return false;")
+                tempelem.setAttribute("onclick", "inputWrapper(" + i + ", " + j + ", 'left', true)")
+                tempelem.setAttribute("oncontextmenu", "inputWrapper(" + i + ", " + j + ", 'right', true); return false;")
                 tempelem.style.border = tileBorder + "px black solid"
             }
             tempelem.style.width = tileEdge + "px"
@@ -69,6 +80,43 @@ function initialize() {
             field.appendChild(tempelem)
         }
     }
+    populate()
+}
+
+function inputWrapper(r, c, action, field) {
+    controls.update()
+    if (action == "left") {
+        if (!field) {
+            if (!controls.edgeSwap) {
+                laser(r, c, false)
+            } else {
+                //placeholder
+            }
+        } else {
+            if (!controls.innerSwap) {
+                //placeholder
+            } else {
+                toggleChild(board[r][c], "ball")
+            }
+        }
+    } else {
+        if (!field) {
+            if (!controls.edgeSwap) {
+                //placeholder
+            } else {
+                laser(r, c, false)
+            }
+        } else {
+            if (!controls.innerSwap) {
+                toggleChild(board[r][c], "ball")
+            } else {
+                //placeholder
+            }
+        }
+    }
+}
+
+function populate() {
     var a = balls
     while (a > 0) {
         var x, y
@@ -245,10 +293,6 @@ function laser(r, c, checking) {
     start.sync()
 }
 
-function flag(r, c) {
-    toggleChild(board[r][c], "ball")
-}
-
 function checkBoard() {
     correct = true
     for (let i = 0; i < 7; i += 6) {
@@ -299,6 +343,26 @@ function checkTile(tile) {
     }
 }
 
+function newGame() {
+    for (let i = 0; i < 7; i++) {
+        for (let j = 0; j < 7; j++) {
+            board[i][j].value = ""
+            board[i][j].sync()
+            board[i][j].checkingValue = ""
+            board[i][j].ball = false
+            board[i][j].pair.r = 0
+            board[i][j].pair.c = 0
+            board[i][j].guess = false
+            if (board[i][j].errorElement != null) {
+                toggleChild(board[i][j], "error")
+            }
+        }
+    }
+    exits = 1
+    checkingExits = 1
+    populate()
+}
+
 function revealAllEdges() {
     for (let i = 0; i < 7; i += 6) {
         for (let j = 1; j < 6; j++) {
@@ -342,7 +406,6 @@ function toggleChild(tile, type) {
 }
 
 function changePage(newPage) {
-    newPage = newPage.id
     if (newPage == currentPage) return
     document.getElementById(currentPage).setAttribute("style", "display: none")
     document.getElementById(newPage).setAttribute("style", "display: block")

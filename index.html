@@ -10,9 +10,9 @@
     <div id="field"></div>
     <div id="sidebar-header">
         <nav id="navbar">
-            <a id="btn-rules" onclick="changePage(rules)" style="color: blue">Rules</a>
-            <a id="btn-htp" onclick="changePage(htp)">How to play</a>
-            <a id="btn-controls" onclick="changePage(controls)">Controls</a>
+            <a id="btn-rules" onclick="changePage('rules')" style="color: blue">Rules</a>
+            <a id="btn-htp" onclick="changePage('htp')">How to play</a>
+            <a id="btn-controls" onclick="changePage('controls')">Controls</a>
         </nav>
     </div>
     <div id="sidebar">
@@ -34,6 +34,9 @@
         <div id="controls" style="display: none">
             <button onclick="revealAllEdges()">Reveal all edges</button>
             <button onclick="checkBoard()">Check solution</button>
+            <button onclick="newGame()">New game</button>
+            <p>Swap edge click actions <input type="checkbox" id="edge-input"></p>
+            <p>Swap field click actions <input type="checkbox" id="inner-input"> </p>
         </div>
     </div>
     <script src="script.js" type="text/javascript"></script>
