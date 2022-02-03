@@ -5,10 +5,7 @@ class Tile {
     checkingValue = "";
     ball = false;
     guess = false;
-    pair = {
-        r: 0,
-        c: 0
-    }
+    pair = null
     sync() {
         this.element.innerText = this.value
         if (this.errorElement != null) {
@@ -38,7 +35,7 @@ var currentPage = "rules"
 
 //Visual variables
 var dynamicMargin = window.innerWidth * 0.01
-var fieldHeight = window.innerHeight - dynamicMargin * 2
+var fieldHeight = (window.innerHeight < window.innerWidth) ? (window.innerHeight - dynamicMargin * 2) : ((window.innerWidth - dynamicMargin * 2) * 0.98)
 var tileHeight = fieldHeight / (size + 2)
 var tileBorder = ((tileHeight * 0.03) < 1) ? 1 : tileHeight * 0.03
 var tileEdge = tileHeight - tileBorder
@@ -47,9 +44,15 @@ fieldHeight += tileBorder
 initialize()
 
 function initialize() {
-    document.getElementById("sidebar-header").setAttribute("style", "width: " + (window.innerWidth - fieldHeight - dynamicMargin * 7) + "px")
-    document.getElementById("sidebar").setAttribute("style", "width: " + (window.innerWidth - fieldHeight - dynamicMargin * 7) + "px")
-    field.setAttribute("style", "width: " + fieldHeight + "px; height: " + fieldHeight + "px")
+    if ((window.innerWidth - fieldHeight - dynamicMargin * 7) > 384) {
+        document.getElementById("sidebar-header").setAttribute("style", "width: " + (window.innerWidth - fieldHeight - dynamicMargin * 7) + "px")
+        document.getElementById("sidebar").setAttribute("style", "width: " + (window.innerWidth - fieldHeight - dynamicMargin * 7) + "px; top: 12vh")    
+        field.setAttribute("style", "width: " + fieldHeight + "px; height: " + fieldHeight + "px")
+    } else {
+        document.getElementById("sidebar-header").setAttribute("style", "width: 98%; top: " + (fieldHeight + dynamicMargin * 3) + "px")
+        document.getElementById("sidebar").setAttribute("style", "width: 98%; top: " + (fieldHeight + window.innerHeight * 0.12) + "px")    
+        field.setAttribute("style", "width: " + fieldHeight + "px; height: " + fieldHeight + "px; left: " + ((window.innerWidth - fieldHeight * 1.032) / 2) + "px")
+    }
     for (let i = 0; i < size + 2; i++) {
         board[i] = []
         for (let j = 0; j < size + 2; j++) {
@@ -278,10 +281,8 @@ function laser(r, c, checking) {
                     start[write] = window[exit] //not very clean, but will do
                     board[r][c][write] = window[exit]
                     if (!checking) {
-                        start.pair.r = r
-                        start.pair.c = c
-                        board[r][c].pair.r = startr
-                        board[r][c].pair.c = startc    
+                        start.pair = board[r][c]
+                        board[r][c].pair = start
                     }
                     board[r][c].sync()
                     window[exit]++
@@ -324,7 +325,7 @@ function checkTile(tile) {
         }
     } else {
         if (typeof(tile.checkingValue) == "number") {
-            if (board[tile.pair.r][tile.pair.c].checkingValue != tile.checkingValue) { //slightly less ewww
+            if (tile.pair.checkingValue != tile.checkingValue) { //slightly less ewww
                 if (tile.errorElement == null) {
                     toggleChild(tile, "error")
                 }
@@ -350,8 +351,7 @@ function newGame() {
             board[i][j].sync()
             board[i][j].checkingValue = ""
             board[i][j].ball = false
-            board[i][j].pair.r = 0
-            board[i][j].pair.c = 0
+            board[i][j].pair = null
             board[i][j].guess = false
             if (board[i][j].errorElement != null) {
                 toggleChild(board[i][j], "error")
