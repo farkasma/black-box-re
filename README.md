@@ -1,7 +1,9 @@
 # black-box-re
 Browser recreation of the puzzle game Black Box.
 
-Although the game currently needs you to use the console (it also doesn't scale to the window yet), you can try the latest version here: https://farkasma.github.io/black-box-re/
+You can try the latest version here: https://farkasma.github.io/black-box-re/
+
+Feedback is much appreciated! :D
 
 ## Rules
 
@@ -9,14 +11,16 @@ Within the field marked by the red squares, there are 3 balls. These balls inter
 
 - H: The laser hit a ball head on, and got absorbed.
 - R: The laser either got turned before it could even enter the field, or exited at the same edge tile it entered from.
-- 1-n: The laser exited at the tile with the same number it entered.
+- Some number: The laser exited at the tile with the same number it entered.
 
 Your goal is to find these balls.
 
 ## How to play
 
-Left click on an edge tile to reveal the character in it. Alternatively you can use the `revealAllEdges()` command in the console to reveal all edges at the same time.
+Left click on an edge tile to reveal the character in it. Alternatively you can use the **Reveal all edges** button in the Controls tab to reveal all edges at the same time.
 
 Right click on a red tile where you think a ball is to mark it.
 
-To check your answer use the `checkBoard()` command in the console. All edge tiles, where the character does not match with the result of your answer will get circled in red.
+To check your answer use the **Check solution** button in the Controls tab. All edge tiles, where the character does not match with the result of your answer will get circled in red.
+
+To start a new game, refresh the page.
