@@ -92,6 +92,7 @@ function inputWrapper(r, c, action, field) {
         if (!field) {
             if (!controls.edgeSwap) {
                 laser(r, c, false)
+                board[r][c].sync()
             } else {
                 //placeholder
             }
@@ -108,6 +109,7 @@ function inputWrapper(r, c, action, field) {
                 //placeholder
             } else {
                 laser(r, c, false)
+                board[r][c].sync()
             }
         } else {
             if (!controls.innerSwap) {
@@ -284,26 +286,40 @@ function laser(r, c, checking) {
                         start.pair = board[r][c]
                         board[r][c].pair = start
                     }
-                    board[r][c].sync()
                     window[exit]++
                     state = 12
                     break
                 }
         }
     }
-    start.sync()
 }
 
 function checkBoard() {
+    var originalExits = exits
     correct = true
     for (let i = 0; i < 7; i += 6) {
         for (let j = 1; j < 6; j++) {
             laser(i, j, true)
-            checkTile(board[i][j])
+            if (board[i][j].value == "") {
+                laser(i, j, false)
+                checkTile(board[i][j])
+                board[i][j].value = ""
+                if (board[i][j].pair != null) board[i][j].pair.value = ""
+            } else {
+                checkTile(board[i][j])
+            }
             laser(j, i , true)
-            checkTile(board[j][i])
+            if (board[j][i].value == "") {
+                laser(j, i, false)
+                checkTile(board[j][i])
+                board[j][i].value = ""
+                if (board[j][i].pair != null) board[j][i].pair.value = ""
+            } else {
+                checkTile(board[j][i])
+            }
         }
     }
+    exits = originalExits
     if (correct == true) {
         setTimeout(() => {
             window.alert("Congratulations!\nYou solved the puzzle.")
@@ -368,6 +384,10 @@ function revealAllEdges() {
         for (let j = 1; j < 6; j++) {
             laser(i, j, false)
             laser(j, i, false)
+            board[i][j].sync()
+            board[j][i].sync()
+            if (board[i][j].pair != null) board[i][j].pair.sync()
+            if (board[j][i].pair != null) board[j][i].pair.sync()
         }
     }
 }
