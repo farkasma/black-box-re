@@ -285,6 +285,7 @@ function laser(r, c, checking) {
                     if (!checking) {
                         start.pair = board[r][c]
                         board[r][c].pair = start
+                        board[r][c].sync()
                     }
                     window[exit]++
                     state = 12
